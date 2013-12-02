@@ -1,0 +1,20 @@
+{
+  "name": "box",
+  "description": "Software for the Box",
+  "author": "IndySix <hi@beattheking.nl>",
+  "dependencies": {
+    "serialport": "~1.2.5",
+    "express": "~3.4.6",
+    "crypto": "0.0.3",
+    "request": "~2.27.0"
+  },
+  "engine": "node >= 0.10.11",
+  "version": "0.0.1",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "",
+  "license": "BSD"
+}

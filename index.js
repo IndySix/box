@@ -51,7 +51,6 @@ functions.listSerialPorts(function(port){
 	    sensorreader.on("open", function () {
 			sensorreader.on('data', function(data) {
 				
-
 				d = data.slice(0,1);
 				console.log(d);
 				if (d == 'C'){
@@ -66,7 +65,7 @@ functions.listSerialPorts(function(port){
 			});  
 	    });
 	} else {
-		console.log('[BOX]'.red + ' No arduino found')
+		functions.boxlog('No arduino configured' , 'red')
 	}
 })
 

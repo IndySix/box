@@ -20,6 +20,5 @@ Stops the current level from playing an removes the current player
 
 Save the level, wheter the user has completed the level or not. Save the data in the levelhistory table.
 
-
-	
+## Serial communication
 

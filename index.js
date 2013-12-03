@@ -1,47 +1,72 @@
 // Imports
-var config = require('./config.js')
-var serialport = require("serialport")
+var config = require('./config.js');
+var functions = require('./functions.js');
+var serialport = require("serialport");
 var crypto = require('crypto'); 
-var request = require('request')
+var request = require('request');
 var express = require('express'); 
+var play = require('play');
+var colors = require('colors');
+
+
+functions.boxlog('Is starting');
 
 // Local BOX server setup requests
 var web = express(); // Setup app and configure:
 web.use(express.json());
 web.use(express.urlencoded());
 
-
 // The BOX url
 web.get('/', function(req, res) {        
-        res.write('Hello, this is the Box!');
-        res.end();
+    res.write('Hello, this is the Box!');
+    res.end();
 });
 
 // The BOX url to start a level (get the details from the JSON request)
 web.get('/play', function(req, res) {        
-        res.write('Play level!');
-        res.end();
+	play.sound('./sound/countdown.wav'); // Play countdown sound
+	res.write('Play level!');
+	res.end();
 });
 
 // The BOX url to stop a level
 web.get('/stop', function(req, res) {        
-        res.write('Stop level!');
-        res.end();
+	res.write('Stop level!');
+	res.end();
 });
 
 // Local port for listing to requests
 web.listen(8000);
-console.log('The BOX is serving pages on: http://localhost:8000')
+functions.boxlog('Is serving pages on: '  + 'http://localhost:8000'.underline)
 
+// Arduino
+functions.boxlog('Configuring sensors')
+functions.boxlog('Listing ports:' , 'yellow')
+functions.listSerialPorts(function(port){
+	// play.sound('./sound/start.wav'); // Play countdown sounds
+	functions.boxlog('Port selected: ' + port)
 
-function levelSave(user_id, level_id, level_details){
+	var sensorreader = new serialport.SerialPort(port, { baudrate: 9600 , parser: serialport.parsers.readline("\r\n") });
+	if (sensorreader){
+	    sensorreader.on("open", function () {
+			sensorreader.on('data', function(data) {
+				
 
-	// Set the data
-	data = {}
-	data.user_id = user_id;
-	data.level_id = level_id;
-	data.level_details = level_details;
+				d = data.slice(0,1);
+				console.log(d);
+				if (d == 'C'){
+					play.sound('./sound/start.wav');
+				}
+				if (d == 'T'){
+					play.sound('./sound/coin.wav');
+				}
+				if (d == 'F'){
+					play.sound('./sound/up.wav');
+				}
+			});  
+	    });
+	} else {
+		console.log('[BOX]'.red + ' No arduino found')
+	}
+})
 
-	// Perform the request
-	request.post(config.websiteUrl + '/level/save').form(data)
-}

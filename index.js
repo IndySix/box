@@ -52,7 +52,8 @@ functions.listSerialPorts(function(port){
 			sensorreader.on('data', function(data) {
 				
 				d = data.slice(0,1);
-				console.log(d);
+				data = data.slice(1);
+				console.log(data);
 				if (d == 'C'){
 					play.sound('./sound/start.wav');
 				}

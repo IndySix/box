@@ -48,7 +48,9 @@ functions.listSerialPorts(function(port){
 
 	var sensorreader = new serialport.SerialPort(port, { baudrate: 9600 , parser: serialport.parsers.readline("\r\n") });
 	if (sensorreader){
+
 	    sensorreader.on("open", function () {
+
 			sensorreader.on('data', function(data) {
 				
 				d = data.slice(0,1);

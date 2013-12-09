@@ -1,4 +1,5 @@
 var prompt = require('prompt');
+var colors = require('colors');
 var serialport = require("serialport");
 var port;
 

@@ -1,6 +1,7 @@
 var prompt = require('prompt');
 var colors = require('colors');
 var serialport = require("serialport");
+var box = require('./web.js')
 var port;
 
 // Save level function
@@ -15,42 +16,26 @@ var levelSave = function(user_id, level_id, level_details){
 	request.post(config.websiteUrl + '/level/save').form(data)
 }
 
-var listSerialPorts = function(callback){
-	serialport.list(function (err, ports) {
-		var i = 1;
-
-	  	ports.forEach(function(port) {
-	    	console.log(i + ': ' + port.comName);
-	    	i++;
-	  	});
-		p = selectPort(ports, callback)
-	}); 
-}
-
-var selectPort = function(ports, callback){
-	prompt.start();
-	prompt.message = '';
-	prompt.delimiter = '';
-	prompt.get({properties: { portname: { description: "Which port:" } } }, function (err, result) {
-		// console.log('Port: ' + result.port);
-		portname = result.portname
-		callback(ports[portname - 1].comName)
-	});
-}
-
 var boxlog = function(log){
-
+	// Switches for color
 	if (arguments[1] == 'red'){
-		console.log('[BOX] '.red + log);	
+		console.log('  [BOX]  '.red + log);	
 	} else if (arguments[1] == 'yellow'){
-		console.log('[BOX] '.yellow + log);	
+		console.log('  [BOX]  '.yellow + log);	
+	} else if (arguments[1] == 'blue'){
+		console.log('  [BOX]  '.blue + log);	
 	} else {
-		console.log('[BOX] '.green + log);	
+		console.log('  [BOX]  '.green + log);	
 	}
 }
 
+// Socket test
+var testSocket = function(){
+	box.io.sockets.emit('box', {status: 'success', data: 'hello world' });
+}
+
+// Exports
 module.exports.boxlog = boxlog;
 module.exports.levelSave = levelSave;
-module.exports.selectPort = selectPort;
-module.exports.listSerialPorts = listSerialPorts;
+module.exports.testSocket = testSocket;
 module.exports.port = port;

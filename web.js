@@ -1,9 +1,30 @@
-var express = require('express'); 
 
-// Local BOX server setup requests
-var web = express(); // Setup app and configure:
+// Imports
+var express = require('express'); 
+var swig = require('swig');
+
+// Local BOX server setup requests, including websockets
+var web = express()
+  , http = require('http')
+  , server = http.createServer(web)
+  , io = require('socket.io').listen(server);
+
+// Websocket debugging level
+io.set('log level', 1);
+
+// Configure Express
 web.use(express.json());
 web.use(express.urlencoded());
+
+// Setup render engine
+web.engine('html', swig.renderFile);
+web.set('view engine', 'html');
+
+// Configure views dir
+web.set('views', __dirname + '/views');
+
+// Configure static dir
+web.use(express.static(__dirname + '/static'));
 
 // The BOX url
 web.get('/', function(req, res) {        
@@ -13,7 +34,7 @@ web.get('/', function(req, res) {
 
 // The BOX url to start a level (get the details from the JSON request)
 web.get('/play', function(req, res) {        
-	play.sound('./sound/countdown.wav'); // Play countdown sound
+	// play.sound('./sound/countdown.wav'); // Play countdown sound
 	res.write('Play level!');
 	res.end();
 });
@@ -24,4 +45,11 @@ web.get('/stop', function(req, res) {
 	res.end();
 });
 
-module.exports.web = web
+// Second screen
+web.get('/screen',function(req, res) {
+	res.render('screen', {});
+});
+
+// Exports
+module.exports.io = io;
+module.exports.server = server;

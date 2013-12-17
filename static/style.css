@@ -1,0 +1,98 @@
+* { margin: 0px; padding: 0px;}
+
+@font-face {
+	font-family: 'markerfelt-webfont';
+	src: url('font/markerfelt-webfont.eot'); /* IE9 Compat Modes */
+	src: url('font/markerfelt-webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+	     url('font/markerfelt-webfont.woff') format('woff'), /* Modern Browsers */
+	     url('font/markerfelt-webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+	     url('font/markerfelt-webfont.svg#markerfelt-webfont') format('svg'); /* Legacy iOS */
+	}
+.markerfelt-webfont {
+	font-family: 'markerfelt-webfont', Fallback, sans-serif;
+	text-shadow: 2px 2px #000;
+	font-size: 24px;
+}
+
+html, body {height: 100%;}
+
+body {
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-size: 20px;
+}
+/* Legacy table fix */
+th, td {
+	font-size: 20px;
+}
+#background-checkin, #background-challenge {
+	transition: opacity 0.2s;
+	background: url('img/bg_checkin.jpg') no-repeat center center fixed;
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+	background-size: cover;
+	position: absolute;
+	top: 0px;
+	bottom: 0px;
+	left: 0px;
+	right: 0px;
+	z-index: -999;
+}
+#background-challenge {
+	background: url('img/bg_challenge.jpg') no-repeat center center fixed;
+	background-size: cover;
+	opacity: 0;
+}
+
+/* Content */
+/****************************************************************/
+#content {
+	position: relative;
+	float: left;
+	height: 100%;
+	width: 100%;
+}
+
+
+/* Checking */
+/****************************************************************/
+#checkin {
+	width: 600px;
+	height: 400px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -300px;
+	margin-top: -200px;
+}
+#checkin-title {
+	background-color: #231f20;
+	color: #fff;
+	text-align: center;
+	padding: 20px;
+	font-size: 35px;
+	font-weight: bold;
+}
+#checkin-title img {
+	height: 35px;
+}
+#checkin-content {
+	background-color: rgba(246,135,18,0.8);
+	padding: 20px;
+}
+#checkin-content h1 {
+	text-align: center;
+	font-size: 80px;
+	color: #fff;
+	letter-spacing: 1px;
+	font-family: 'markerfelt-webfont', Fallback, sans-serif;
+	text-shadow: 2px 2px #000;
+}
+#checkin-content p {
+	text-align: center;
+	font-weight: bold;
+	padding: 10px;
+}
+
+/* Challenge */
+/****************************************************************/

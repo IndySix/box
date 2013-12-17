@@ -1,0 +1,45 @@
+<html>
+<head>
+	<title>Beat The King</title>
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script src="app.js"></script>
+</head>
+<body>
+<div id="background-checkin"></div>
+<div id="background-challenge"></div>
+
+<div id="content">
+<!-- Begin Checkin -->
+	<div id="checkin">
+		<div id="checkin-title">Beat The KING! <img src="img/kroon.png"></div>
+		<div id="checkin-content">
+			<h1>Check-in</h1>
+			<p>Visit Beattheking.nl with your mobile phone!</p>
+		</div>
+	</div>
+<!-- End Checkin -->	
+
+<!-- Begin Challenge -->
+	<div id="challange">
+		
+	</div>
+<!-- End Challenge -->
+
+
+
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+	var socket = io.connect('http://localhost');
+	socket.on('box', function (data) {
+		if (data.status == "success"){
+			console.log('Success! Received: ' + data.data)
+		}
+	});
+</script>
+
+<script type="text/javascript">
+</script>
+</body>
+</html>

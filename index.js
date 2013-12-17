@@ -2,28 +2,36 @@
 var config = require('./config.js');
 var functions = require('./functions.js');
 var boxlog = require('./functions.js').boxlog;
-var web = require('./web.js').web
-var sensor = require('./sensor.js').sensor
-
+var box = require('./web.js')
+var sensor = require('./sensor.js')
 var crypto = require('crypto'); 
 var request = require('request');
 
-boxlog('Is starting');
+// Start
+boxlog('Is starting', 'blue');
 
 // Local port for listing to requests
-web.listen(8000);
+box.server.listen(8000);
 
+// Print URLs
 boxlog('Is serving pages on: '  + 'http://localhost:8000'.underline)
+boxlog('Second screen at: '  + 'http://localhost:8000/screen'.underline)
+
+// Websockets
+boxlog('Testing websockets', 'blue')
 
 // Arduino
-boxlog('Configuring sensors')
+boxlog('Configuring sensors', 'blue')
 boxlog('Listing ports:' , 'yellow')
 
-functions.listSerialPorts(function(port){
-	// play.sound('./sound/start.wav'); // Play countdown sounds
-	boxlog('Port selected: ' + port)
+// Select a serial port and read data
+sensor.listSerialPorts(function(port){
+	
+	boxlog('Port selected: ' + port) // Display selected port
 
-	sensor(port);
+	functions.testSocket() // Test socket
+
+	sensor.readSensor(port); // Read sensor 
 	
 })
 

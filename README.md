@@ -14,11 +14,21 @@ Load the level into the box and arduino. Save the user ID and level id for later
 
 Stops the current level from playing an removes the current player 
 
+	/screen ()
+
+URL for the second screen, uses websockets and the JSend protocol for communication with the BOX.
+
 ### Website API
+
+Not used yet.
 
 	/level/save (user_id, level_id, level_details, level_data, level_completed)
 
 Save the level, wheter the user has completed the level or not. Save the data in the levelhistory table.
 
 ## Serial communication
+
+Serial data is seperated by a new line: '\r\n'.
+
+The first character is then stripped of for the identification of the signal. The rest is parsed as JSend standard. 
 

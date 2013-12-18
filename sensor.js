@@ -53,15 +53,15 @@ function readSensor(port){
 
 				// C for start
 				case "C":
-						play.sound('./sound/start.wav');
-						box.io.sockets.emit('box', {status: 'success', data: 'starting challenge' });
-						break;
+					play.sound('./sound/start.wav');
+					box.io.sockets.emit('box', {status: 'success', data: 'starting challenge' });
+					break;
 
 				// T for light sensor trigger
 				case "T":
-						play.sound('./sound/coin.wav');
-						box.io.sockets.emit('box', {status: 'success', data: 'sensor trigger' });
-						break;
+					play.sound('./sound/coin.wav');
+					box.io.sockets.emit('box', {status: 'success', data: 'sensor trigger' });
+					break;
 
 				// F when finishing a challange
 				case "F":
@@ -73,7 +73,7 @@ function readSensor(port){
 				default:
 					box.io.sockets.emit('box', {status: 'error', data: 'Error parsing sensor data.' });
 					boxlog('Error parsing sensor data: ', 'red')
-						break;
+					break;
 			}
 
 		});});

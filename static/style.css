@@ -96,3 +96,61 @@ th, td {
 
 /* Challenge */
 /****************************************************************/
+#challenge {
+	width: 90%;
+	height: 90%;
+	position: absolute;
+	left: 50%;
+	margin-left: -45%;
+	margin-top: 5%;
+	display: none;
+}
+#challenge-title {
+	background-color: #231f20;
+	color: #fff;
+	text-align: center;
+	padding: 20px;
+	font-size: 35px;
+	font-weight: bold;
+}
+#challenge-title img {
+	height: 35px;
+}
+#challenge-content {
+	background-color: rgba(246,135,18,0.8);
+	padding: 20px;
+}
+#progress{
+	margin-top: 20px;
+	border-radius: 10px;
+	width: 0px;
+	height: 40px;
+	background-color: white;
+}
+
+/* Finish */
+/****************************************************************/
+#finish {
+	width: 90%;
+	height: 90%;
+	position: absolute;
+	left: 50%;
+	margin-left: -45%;
+	margin-top: 5%;
+	display: none;
+}
+#finish-title {
+	background-color: #231f20;
+	color: #fff;
+	text-align: center;
+	padding: 20px;
+	font-size: 35px;
+	font-weight: bold;
+}
+#finish-title img {
+	height: 35px;
+}
+#finish-content {
+	background-color: rgba(246,135,18,0.8);
+	padding: 20px;
+}

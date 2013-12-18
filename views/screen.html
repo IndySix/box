@@ -3,7 +3,7 @@
 	<title>Beat The King</title>
 	<meta name="viewport" content="width=device-width">
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<script src="app.js"></script>
+	
 </head>
 <body>
 <div id="background-checkin"></div>
@@ -21,25 +21,31 @@
 <!-- End Checkin -->	
 
 <!-- Begin Challenge -->
-	<div id="challange">
-		
+	<div id="challenge">
+		<div id="challenge-title">Challenge!</div>
+		<div id="challenge-content">
+			<h1>Challenge</h1>
+			<p>Welcome <span id="username"></span>!</p>
+			<div id="progress"></div>
+		</div>
 	</div>
 <!-- End Challenge -->
 
+<!-- Begin Finish -->
+	<div id="finish">
+		<div id="finish-title">Finish!</div>
+		<div id="finish-content">
+			<h1>Finished</h1>
+			<p>All data from the challange below!</p>
+			<h3>Score: <span id="score"></span></h3>
+		</div>
+	</div>
+<!-- End Finish -->
 
 
 </div>
+<script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
-<script>
-	var socket = io.connect('http://localhost');
-	socket.on('box', function (data) {
-		if (data.status == "success"){
-			console.log('Success! Received: ' + data.data)
-		}
-	});
-</script>
-
-<script type="text/javascript">
-</script>
+<script src="app.js"></script>
 </body>
 </html>

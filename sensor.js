@@ -5,6 +5,7 @@ var play = require('play');
 var colors = require('colors');
 var prompt = require('prompt');
 var box = require('./web.js')
+var functions = require("./functions");
 var boxlog = require('./functions.js').boxlog;
 
 
@@ -38,7 +39,9 @@ var selectPort = function(ports, callback){
 
 // Read sensor at a port
 function readSensor(port){
+	
 	var sensorreader = new serialport.SerialPort(port, { baudrate: 9600 , parser: serialport.parsers.readline("\r\n") });
+
 	if (sensorreader){
 
 		// Open serial port and read data
@@ -51,16 +54,17 @@ function readSensor(port){
 			// Data switch
 			switch(d) {
 
-				// C for start
-				case "C":
-					play.sound('./sound/start.wav');
-					box.io.sockets.emit('box', {status: 'success', data: 'starting challenge' });
-					break;
+				// A for approach
+				case "A":
+					// play.sound('./sound/coin.wav'); // Might want to do a drumroll?
+					box.io.sockets.emit('box', {status: 'success', data: 'sensor trigger' });
+					boxlog('Skater approaching..')
+					// Start camera here
 
 				// T for light sensor trigger
 				case "T":
 					play.sound('./sound/coin.wav');
-					box.io.sockets.emit('box', {status: 'success', data: 'sensor trigger' });
+					box.io.sockets.emit('box', {status: 'success', data: 'tick trigger' });
 					break;
 
 				// F when finishing a challange
@@ -88,3 +92,4 @@ function readSensor(port){
 module.exports.readSensor = readSensor
 module.exports.selectPort = selectPort;
 module.exports.listSerialPorts = listSerialPorts;
+module.exports.checkinUser = checkinUser;

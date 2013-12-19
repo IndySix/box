@@ -32,3 +32,9 @@ Serial data is seperated by a new line: '\r\n'.
 
 The first character is then stripped of for the identification of the signal. The rest is parsed as JSend standard. 
 
+Characters used:
+
+	A: Approach, a user is detected by the infrared sensors
+	T: A light sensor is triggered and a sound should be played
+	F: A summary of the data including scores is send and shown to the player
+

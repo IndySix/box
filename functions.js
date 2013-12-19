@@ -1,7 +1,13 @@
+// Imports
+
+var spawn = require('child_process').spawn
+var serialport = require("serialport");
 var prompt = require('prompt');
 var colors = require('colors');
-var serialport = require("serialport");
-var box = require('./web.js')
+var open = require('open');
+var box = require('./web.js');
+
+// Global variables:
 var port;
 
 // Save level function
@@ -14,6 +20,17 @@ var levelSave = function(user_id, level_id, level_details){
 
 	// Perform the request
 	request.post(config.websiteUrl + '/level/save').form(data)
+}
+
+var openBrowser = function(url){
+	open(url); // With the open module 
+}
+
+var recordVideo = function(user_id, challenge_id, duration){
+	boxlog('Started Video for user: ' + user_id, 'blue') // Log video name
+
+	// Spawn command line video process
+    // spawn('python', ['/pathtoscript', '-c', 'camerapath', '-n', 'filename', '-d', 'duration']);
 }
 
 // Boxlog function with color
@@ -38,8 +55,10 @@ var sendSocket = function(data){
 // Socket test
 var testSocket = function(){
 
-	box.io.sockets.emit('box', {status: 'success', data: {code: 'start', username: 'Joost', challenge: 'Grind Low'}});
+	// Start test sequence
+	sendSocket({code: 'start', username: 'Joost', challenge: 'Grind Low'});
 	
+	// Progress bar
 	setTimeout(function(){ sendSocket({code: 'progress', amount: '5%'}) }, 1000)
 	setTimeout(function(){ sendSocket({code: 'progress', amount: '10%'}) }, 1100)
 	setTimeout(function(){ sendSocket({code: 'progress', amount: '15%'}) }, 1200)
@@ -61,12 +80,16 @@ var testSocket = function(){
 	setTimeout(function(){ sendSocket({code: 'progress', amount: '95%'}) }, 2800)
 	setTimeout(function(){ sendSocket({code: 'progress', amount: '100%'}) }, 2900)
 
+	// Finish
 	setTimeout(function(){ sendSocket({code: 'finish', score: '800'}) }, 4000)
+
+	// Reset to start screen
 	setTimeout(function(){ sendSocket({code: 'restart'}) }, 10000)
 
 }
 
 // Exports
+module.exports.openBrowser = openBrowser;
 module.exports.boxlog = boxlog;
 module.exports.levelSave = levelSave;
 module.exports.testSocket = testSocket;

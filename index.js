@@ -16,6 +16,7 @@ box.server.listen(8000);
 // Print URLs
 boxlog('Is serving pages on: '  + 'http://localhost:8000'.underline)
 boxlog('Second screen at: '  + 'http://localhost:8000/screen'.underline)
+functions.openBrowser('http://localhost:8000/screen')
 
 // Websockets
 boxlog('Testing websockets', 'blue')

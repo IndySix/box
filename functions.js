@@ -6,6 +6,8 @@ var prompt = require('prompt');
 var colors = require('colors');
 var open = require('open');
 var box = require('./web.js');
+var config = require('./config.js')
+var request = require('request');
 
 // Global variables:
 var port;
@@ -45,6 +47,11 @@ var boxlog = function(log){
 	} else {
 		console.log('  [BOX]  '.green + log);	
 	}
+}
+
+// Function to save data to website
+var saveDataToWebsite = function(data){
+	request.post(config.websiteUrl + '/level/save').form(data)
 }
 
 // Send data over websocket to all attached clients

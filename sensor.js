@@ -71,7 +71,16 @@ function readSensor(port){
 				case "F":
 					play.sound('./sound/up.wav');
 					box.io.sockets.emit('box', {status: 'success', data: 'finish challenge' });
+					
+					// Get all current data and save to the website
+					var sensordata = data // Save sensor data
+					// TODO: Add user details etc. 
+					// Add user details
+					functions.saveDataToWebsite()  
+
 					break;
+
+
 
 				// When none of these, print an error
 				default:
@@ -92,4 +101,3 @@ function readSensor(port){
 module.exports.readSensor = readSensor
 module.exports.selectPort = selectPort;
 module.exports.listSerialPorts = listSerialPorts;
-module.exports.checkinUser = checkinUser;

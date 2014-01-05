@@ -33,6 +33,8 @@ sensor.listSerialPorts(function(port){
 
 	functions.testSocket() // Test socket
 
+	boxlog('Setup completed!')
+
 	sensor.readSensor(port); // Read sensor 
 	
 })

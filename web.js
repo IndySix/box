@@ -35,12 +35,6 @@ web.get('/', function(req, res) {
 
 // The BOX url to start a level (get the details from the JSON request)
 web.get('/play', function(req, res) {        
-	
-	// Send serial to Arduino to notify that a user is checked in.
-
-
-
-	// Start level
 	res.write('Play level!');
 	res.end();
 });

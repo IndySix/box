@@ -36,5 +36,5 @@ Characters used:
 
 	A: Approach, a user is detected by the infrared sensors
 	T: A light sensor is triggered and a sound should be played
-	F: A summary of the data including scores is send and shown to the player
+	F: A summary of the data including scores is sent and shown to the player, data is saved trough the website API call
 

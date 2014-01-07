@@ -8,6 +8,7 @@ var open = require('open');
 var box = require('./web.js');
 var config = require('./config.js')
 var request = require('request');
+var crypto = require("crypto");
 
 // Global variables:
 var port;
@@ -28,11 +29,33 @@ var openBrowser = function(url){
 	open(url); // With the open module 
 }
 
-var recordVideo = function(user_id, challenge_id, duration){
+var recordVideo = function(user_id, challenge_id){
 	boxlog('Started Video for user: ' + user_id, 'blue') // Log video name
 
-	// Spawn command line video process
-    // spawn('python', ['/pathtoscript', '-c', 'camerapath', '-n', 'filename', '-d', 'duration']);
+	// Hash user id and time 
+	var hash = crypto.createHash("md5").update(user_id + challenge_id + Math.floor(new Date() / 1000).toString()).digest("hex")
+
+	boxlog('Creating video with hash: ' + hash, 'blue')
+
+	var duration = 10;
+
+ 	// Spawn video 
+ 	boxlog('Executing command: ' + 'ffmpeg -f video4linux2 -s hd720 -t ' + duration + ' -i /dev/video0 ' + hash + '.mp4', 'green')
+    //spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0', hash + '.mp4'])
+   
+}
+
+var checkinUser = function(){
+	request.get(config.websiteUrl + 'api/checkinUser', function (error, response, body) {
+	  	if (!error && response.statusCode == 200) {
+	  		boxlog('User checked in.')
+	    	console.log(body);
+	    	return body;
+	  	} else {
+	  		boxlog('No user checked in.')
+	  		return false;
+	  	}
+	})
 }
 
 // Boxlog function with color
@@ -59,46 +82,11 @@ var sendSocket = function(data){
 	box.io.sockets.emit('box', {status: 'success', data: data})
 }
 
-// Socket test
-var testSocket = function(){
-
-	// Start test sequence
-	sendSocket({code: 'start', username: 'Joost', challenge: 'Grind Low'});
-	
-	// Progress bar
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '5%'}) }, 1000)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '10%'}) }, 1100)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '15%'}) }, 1200)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '20%'}) }, 1300)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '25%'}) }, 1400)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '30%'}) }, 1500)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '35%'}) }, 1600)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '40%'}) }, 1700)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '45%'}) }, 1800)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '50%'}) }, 1900)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '55%'}) }, 2000)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '60%'}) }, 2100)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '65%'}) }, 2200)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '70%'}) }, 2300)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '75%'}) }, 2400)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '80%'}) }, 2500)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '85%'}) }, 2600)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '90%'}) }, 2700)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '95%'}) }, 2800)
-	setTimeout(function(){ sendSocket({code: 'progress', amount: '100%'}) }, 2900)
-
-	// Finish
-	setTimeout(function(){ sendSocket({code: 'finish', score: '800'}) }, 4000)
-
-	// Reset to start screen
-	setTimeout(function(){ sendSocket({code: 'restart'}) }, 10000)
-
-}
-
 // Exports
 module.exports.openBrowser = openBrowser;
 module.exports.boxlog = boxlog;
 module.exports.levelSave = levelSave;
-module.exports.testSocket = testSocket;
 module.exports.sendSocket = sendSocket;
+module.exports.checkinUser = checkinUser;
+module.exports.recordVideo = recordVideo;
 module.exports.port = port;

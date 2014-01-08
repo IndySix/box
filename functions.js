@@ -12,17 +12,16 @@ var crypto = require("crypto");
 
 // Global variables:
 var port;
-var checkin;
-var video_hash;
+
 
 // Save level function
-var levelSave = function(user_id, level_id, level_details){
+var levelSave = function(level_details){
 	// Set the data
 	data = {}
-	data.user_id = user_id;
-	data.level_id = level_id;
+	data.user_id = global.user_id;
+	data.level_id = global.level_id;
 	data.level_details = level_details;
-	data.video_hash = video_hash;
+	data.video_hash = global.video_hash;
 
 	// Perform the request
 	// request.post(config.websiteUrl + '/level/save').form(data)
@@ -33,24 +32,26 @@ var challengeSequenceStart = function(username, level){
 	sendSocket({code: 'start', username: username, challenge: level.order});
 }
 
-var challengeSequenceStop = function(user_id, level_id, level_details, video_hash){
-	// Push data to webserver for storage
+var challengeSequenceStop = function(level_details){
+	// Clear timeout if that has not been done yet.
+	clearTimeout(global.timeoutID);
 
-	levelSave(user_id, level_id, level_details, video_hash)
+	// Push data to webserver for storage
+	levelSave(level_details)
 
 	// Reset second screen
 	sendSocket({code: 'restart'})
+
+	// Clear globals
+	global.user_id = false;
+	global.level_id = false;
+	global.timeoutID = false;
 }
 
 var recordVideo = function(){
-
-	// If checkin does not exist, return
-	if (!checkin){
-		return
-	}
-
-	user_id = checkin.user.user_id
-	challenge_id = checkin.level.order
+	// Get user and challenge ID.
+	user_id = global.user_id
+	challenge_id = global.level_id
 
 	boxlog('Started Video for user: ' + user_id, 'blue') // Log video name
 
@@ -70,6 +71,7 @@ var recordVideo = function(){
    	// Reset checkin for video
    	checkin = false;
    	video_hash = hash;
+   	global.video_hash = hash;
 
 	// Return hash for saving
    	return hash
@@ -106,5 +108,3 @@ module.exports.recordVideo = recordVideo;
 module.exports.port = port;
 module.exports.challengeSequenceStart = challengeSequenceStart;
 module.exports.challengeSequenceStop = challengeSequenceStop;
-module.exports.checkin = checkin;
-module.exports.video_hash = video_hash;

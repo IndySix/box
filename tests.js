@@ -2,6 +2,8 @@ var sendSocket = require('./functions.js').sendSocket;
 var recordVideo = require('./functions.js').recordVideo;
 
 var testVideo = function(){
+	global.user_id = 1;
+	global.level_id = 1;
 	recordVideo(1, 'testchallenge');
 }
 

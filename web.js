@@ -2,7 +2,8 @@
 // Imports
 var express = require('express'); 
 var swig = require('swig');
-var sensor = require('./sensor.js')
+var sensor = require('./sensor.js');
+var functions = require('./functions.js');
 
 // Local BOX server setup requests, including websockets
 var web = express()
@@ -34,14 +35,31 @@ web.get('/', function(req, res) {
 });
 
 // The BOX url to start a level (get the details from the JSON request)
-web.get('/play', function(req, res) {        
+web.post('/start', function(req, res) {       
 	res.write('Play level!');
+
+	// Parse data for starting a request
+	level = JSON.parse(req.body.data);
+	user = level.queue
+	timeout = level.playTime
+
+	// Start challenge
+	functions.challengeSequenceStart(user.username, level)
+
+	// Start listening of sensors until timeout or stop function
+	functions.checkin = {user: user, level: level}
+	2
+	// Implement stop function
+	
 	res.end();
 });
 
 // The BOX url to stop a level
 web.get('/stop', function(req, res) {        
 	res.write('Stop level!');
+
+	functions.challengeSequenceStop()
+
 	res.end();
 });
 
@@ -49,6 +67,8 @@ web.get('/stop', function(req, res) {
 web.get('/screen',function(req, res) {
 	res.render('screen', {});
 });
+
+
 
 // Exports
 module.exports.io = io;

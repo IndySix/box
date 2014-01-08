@@ -5,13 +5,13 @@ var boxlog = require('./functions.js').boxlog;
 var box = require('./web.js')
 var sensor = require('./sensor.js')
 var request = require('request');
-var tests = require('./tests.js')
+var tests = require('./tests.js');
 
 // Start
 boxlog('Is starting', 'blue');
 
 // Local port for listing to requests
-box.server.listen(8000);
+box.server.listen(config.port);
 
 // Print URLs
 boxlog('Is serving pages on: '  + 'http://localhost:8000'.underline)

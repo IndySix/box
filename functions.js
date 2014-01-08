@@ -12,6 +12,8 @@ var crypto = require("crypto");
 
 // Global variables:
 var port;
+var checkin;
+var video_hash;
 
 // Save level function
 var levelSave = function(user_id, level_id, level_details){
@@ -20,16 +22,36 @@ var levelSave = function(user_id, level_id, level_details){
 	data.user_id = user_id;
 	data.level_id = level_id;
 	data.level_details = level_details;
+	data.video_hash = video_hash;
 
 	// Perform the request
-	request.post(config.websiteUrl + '/level/save').form(data)
+	// request.post(config.websiteUrl + '/level/save').form(data)
 }
 
-var openBrowser = function(url){
-	open(url); // With the open module 
+var challengeSequenceStart = function(username, level){
+	// Start sequence on second screen by sending start command 
+	sendSocket({code: 'start', username: username, challenge: level.order});
 }
 
-var recordVideo = function(user_id, challenge_id){
+var challengeSequenceStop = function(user_id, level_id, level_details, video_hash){
+	// Push data to webserver for storage
+
+	levelSave(user_id, level_id, level_details, video_hash)
+
+	// Reset second screen
+	sendSocket({code: 'restart'})
+}
+
+var recordVideo = function(){
+
+	// If checkin does not exist, return
+	if (!checkin){
+		return
+	}
+
+	user_id = checkin.user.user_id
+	challenge_id = checkin.level.order
+
 	boxlog('Started Video for user: ' + user_id, 'blue') // Log video name
 
 	// Hash user id and time 
@@ -39,23 +61,18 @@ var recordVideo = function(user_id, challenge_id){
 
 	var duration = 10;
 
- 	// Spawn video 
+ 	// Video bebug
  	boxlog('Executing command: ' + 'ffmpeg -f video4linux2 -s hd720 -t ' + duration + ' -i /dev/video0 ' + hash + '.mp4', 'green')
-    //spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0', hash + '.mp4'])
    
-}
+   	// Spawn video process
+    //spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0', hash + '.mp4'])
+   	
+   	// Reset checkin for video
+   	checkin = false;
+   	video_hash = hash;
 
-var checkinUser = function(){
-	request.get(config.websiteUrl + 'api/checkinUser', function (error, response, body) {
-	  	if (!error && response.statusCode == 200) {
-	  		boxlog('User checked in.')
-	    	console.log(body);
-	    	return body;
-	  	} else {
-	  		boxlog('No user checked in.')
-	  		return false;
-	  	}
-	})
+	// Return hash for saving
+   	return hash
 }
 
 // Boxlog function with color
@@ -72,21 +89,22 @@ var boxlog = function(log){
 	}
 }
 
-// Function to save data to website
-var saveDataToWebsite = function(data){
-	request.post(config.websiteUrl + '/level/save').form(data)
-}
-
 // Send data over websocket to all attached clients
 var sendSocket = function(data){
 	box.io.sockets.emit('box', {status: 'success', data: data})
 }
 
+var openBrowser = function(url){
+	open(url); // With the open module 
+}
+
 // Exports
 module.exports.openBrowser = openBrowser;
 module.exports.boxlog = boxlog;
-module.exports.levelSave = levelSave;
 module.exports.sendSocket = sendSocket;
-module.exports.checkinUser = checkinUser;
 module.exports.recordVideo = recordVideo;
 module.exports.port = port;
+module.exports.challengeSequenceStart = challengeSequenceStart;
+module.exports.challengeSequenceStop = challengeSequenceStop;
+module.exports.checkin = checkin;
+module.exports.video_hash = video_hash;

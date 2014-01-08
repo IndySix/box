@@ -19,19 +19,19 @@ socket.on('box', function (data) {
 				$('#progress').css('width', data.data.amount);
 					break;
 
-				case 'finish':
-					$('#challenge').fadeOut(function(){
-						$('#score').text(data.data.score);
-						$('#finish').fadeIn();
+			case 'finish':
+				$('#challenge').fadeOut(function(){
+					$('#score').text(data.data.score);
+					$('#finish').fadeIn();
+				});
+				break;
 
-					});
-					break;
-
-				case 'restart':
-					$('#finish').fadeOut(function(){
-						$('#checkin').fadeIn();
-					});
-					break;
+			case 'restart':
+				$('#challenge').fadeOut()
+				$('#finish').fadeOut(function(){
+					$('#checkin').fadeIn();
+				});
+				break;
 
 			default:
 				console.log('Unable to parse data:')

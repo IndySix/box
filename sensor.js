@@ -59,7 +59,9 @@ function readSensor(port){
 					// play.sound('./sound/coin.wav'); // Might want to do a drumroll?
 					box.io.sockets.emit('box', {status: 'success', data: 'sensor trigger' });
 					boxlog('Skater approaching..')
-					// Start camera here
+
+					// Record video for 30 seconds
+					functions.recordVideo()
 
 				// T for light sensor trigger
 				case "T":

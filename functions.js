@@ -46,35 +46,44 @@ var challengeSequenceStop = function(level_details){
 	global.user_id = false;
 	global.level_id = false;
 	global.timeoutID = false;
+	global.video_hash = false;
 }
 
 var recordVideo = function(){
-	// Get user and challenge ID.
-	user_id = global.user_id
-	challenge_id = global.level_id
+	if (!recording){
 
-	boxlog('Started Video for user: ' + user_id, 'blue') // Log video name
+		boxlog('Start recording video', 'green')
 
-	// Hash user id and time 
-	var hash = crypto.createHash("md5").update(user_id + challenge_id + Math.floor(new Date() / 1000).toString()).digest("hex")
+		recording = true;
 
-	boxlog('Creating video with hash: ' + hash, 'blue')
+		// Get user and challenge ID.
+		user_id = global.user_id
+		challenge_id = global.level_id
 
-	var duration = 10;
+		boxlog('Started Video for user: ' + user_id, 'blue') // Log video name
 
- 	// Video bebug
- 	boxlog('Executing command: ' + 'ffmpeg -f video4linux2 -s hd720 -t ' + duration + ' -i /dev/video0 ' + hash + '.mp4', 'green')
-   
-   	// Spawn video process
-    //spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0', hash + '.mp4'])
-   	
-   	// Reset checkin for video
-   	checkin = false;
-   	video_hash = hash;
-   	global.video_hash = hash;
+		// Hash user id and time 
+		var hash = crypto.createHash("md5").update(user_id + challenge_id + Math.floor(new Date() / 1000).toString()).digest("hex")
 
-	// Return hash for saving
-   	return hash
+		boxlog('Creating video with hash: ' + hash, 'blue')
+
+		var duration = 10;
+
+	 	// Video bebug
+	 	boxlog('Executing command: ' + 'ffmpeg -f video4linux2 -s hd720 -t ' + duration + ' -i /dev/video0 ' + hash + '.mp4', 'green')
+	   
+	   	// Spawn video process
+	    //spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0', hash + '.mp4'])
+	   	
+	   	// Reset checkin for video
+	   	checkin = false;
+	   	video_hash = hash;
+	   	global.video_hash = hash;
+
+	} else {
+		boxlog('Already recording video', 'red')
+	}
+	
 }
 
 // Boxlog function with color

@@ -7,6 +7,8 @@ var prompt = require('prompt');
 var box = require('./web.js')
 var functions = require("./functions");
 var boxlog = require('./functions.js').boxlog;
+var sendSocket = require('./functions.js').sendSocket;
+
 
 
 // List all serial ports
@@ -57,7 +59,8 @@ function readSensor(port){
 				// A for approach
 				case "A":
 					// play.sound('./sound/coin.wav'); // Might want to do a drumroll?
-					box.io.sockets.emit('box', {status: 'success', data: 'sensor trigger' });
+					sendSocket({code: 'approach'});
+
 					boxlog('Skater approaching..')
 
 					// Record video for 30 seconds
@@ -65,8 +68,11 @@ function readSensor(port){
 
 				// T for light sensor trigger
 				case "T":
+					var s = parseInt(data.slice(0,2)) * 6.25;
+					var amount = s + '%'
+
 					play.sound('./sound/coin.wav');
-					box.io.sockets.emit('box', {status: 'success', data: 'tick trigger' });
+					sendSocket({code: 'progress', amount: amount});
 					break;
 
 				// F when finishing a challange

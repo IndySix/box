@@ -29,7 +29,7 @@ socket.on('box', function (data) {
 			case 'restart':
 				$('#challenge').fadeOut()
 				$('#finish').fadeOut(function(){
-					$('#checkin').fadeIn();
+					$('#checkin').fadeIn();	
 				});
 				break;
 

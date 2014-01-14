@@ -13,7 +13,6 @@ var crypto = require("crypto");
 // Global variables:
 var port;
 
-
 // Save level function
 var levelSave = function(level_details){
 	// Set the data
@@ -50,11 +49,11 @@ var challengeSequenceStop = function(level_details){
 }
 
 var recordVideo = function(){
-	if (!recording){
+	if (!global.recording){
 
 		boxlog('Start recording video', 'green')
 
-		recording = true;
+		global.recording = true;
 
 		// Get user and challenge ID.
 		user_id = global.user_id

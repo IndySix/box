@@ -35,7 +35,11 @@ sensor.listSerialPorts(function(port){
 
 	boxlog('Setup completed!')
 
-	sensor.readSensor(port); // Read sensor 
+	if (port == ''){
+		boxlog('No Arduino selected', 'red')
+	} else {
+		sensor.readSensor(port); // Read sensor 
+	}
 	
 })
 

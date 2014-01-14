@@ -7,6 +7,10 @@ var testVideo = function(){
 	recordVideo(1, 'testchallenge');
 }
 
+var testSerial = function(){
+	
+}
+
 // Socket test
 var testSocket = function(){
 
@@ -44,3 +48,4 @@ var testSocket = function(){
 
 module.exports.testSocket = testSocket;
 module.exports.testVideo = testVideo;
+module.exports.testSerial = testSerial;

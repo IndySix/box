@@ -7,9 +7,8 @@ var prompt = require('prompt');
 var box = require('./web.js')
 var functions = require("./functions");
 var boxlog = require('./functions.js').boxlog;
+var config = require('./config.js')
 var sendSocket = require('./functions.js').sendSocket;
-
-
 
 // List all serial ports
 var listSerialPorts = function(callback){
@@ -35,7 +34,13 @@ var selectPort = function(ports, callback){
 	prompt.get({properties: { portname: { description: "  Which port:".white } } }, function (err, result) {
 		// console.log('Port: ' + result.port);
 		portname = result.portname
-		callback(ports[portname - 1].comName)
+		if (portname == 0){
+			callback(config.serialPort);
+		} else {
+			callback(ports[portname - 1].comName)	
+		}
+
+		
 	});
 }
 

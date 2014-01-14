@@ -72,7 +72,7 @@ var recordVideo = function(){
 	 	boxlog('Executing command: ' + 'ffmpeg -f video4linux2 -s hd720 -t ' + duration + ' -i /dev/video0 ' + hash + '.mp4', 'green')
 	   
 	   	// Spawn video process
-	    //spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0', hash + '.mp4'])
+	    spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0', hash + '.mp4'])
 	   	
 	   	// Reset checkin for video
 	   	checkin = false;

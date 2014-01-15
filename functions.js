@@ -17,13 +17,12 @@ var port;
 var levelSave = function(level_details){
 	// Set the data
 	data = {}
-	data.user_id = global.user_id;
-	data.level_id = global.level_id;
+	data.username = global.username;
 	data.level_details = level_details;
 	data.video_hash = global.video_hash;
 
 	// Perform the request
-	// request.post(config.websiteUrl + '/level/save').form(data)
+	request.post(config.websiteUrl + '/api/saveGame/' + global.part_id + '/' + global.order_id ).form(data)
 }
 
 var challengeSequenceStart = function(username, level){
@@ -36,15 +35,16 @@ var challengeSequenceStop = function(level_details){
 	clearTimeout(global.timeoutID);
 
 	// Push data to webserver for storage
-	levelSave(level_details)
+	levelSave(level_details);
 
 	// Reset second screen
-	sendSocket({code: 'restart'})
+	sendSocket({code: 'restart'});
 
 	// Clear globals
-	global.user_id = false;
-	global.level_id = false;
-	global.timeoutID = false;
+	global.username = false;
+	global.order_id = false;
+	global.part_id = false;
+	global.timeout = false;
 	global.video_hash = false;
 }
 

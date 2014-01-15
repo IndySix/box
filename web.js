@@ -46,15 +46,16 @@ web.post('/start', function(req, res) {
 	timeout = level.playTime
 	functions.checkin = {user: user, level: level}
 
-	global.user_id = user.user_id
-	global.level_id = level.order
+	global.username = user.username
+	global.order_id = level.order
+	global.part_id = level.part
 
 	// Start challenge
 	functions.challengeSequenceStart(user.username, level)
 
 	// Start listening of sensors until timeout or stop function
-	global.timeoutID = setTimeout(function(){
-		challengeSequenceStop(user_id, level_id, level_details, video_hash)
+	global.timeout = setTimeout(function(){
+		challengeSequenceStop({'data': 'timeout'})
 	}, playTime) // Playtime is the timeout
 
 });
@@ -63,7 +64,7 @@ web.post('/start', function(req, res) {
 web.get('/stop', function(req, res) {        
 	res.write('Stop level!');
 
-	functions.challengeSequenceStop()
+	functions.challengeSequenceStop({})
 
 	res.end();
 });

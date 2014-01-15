@@ -84,12 +84,10 @@ function readSensor(port){
 				case "F":
 					play.sound('./sound/up.wav');
 					box.io.sockets.emit('box', {status: 'success', data: 'finish challenge' });
-					
-					// Get all current data and save to the website
-					var sensordata = data // Save sensor data
-					// TODO: Add user details etc. 
-					// Add user details
-					functions.saveDataToWebsite()  
+				
+					var level_details = data; // Save sensor data	
+					// Current user is added trough a global var
+					functions.challengeSequenceStop(level_details);
 
 					break;
 

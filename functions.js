@@ -22,7 +22,12 @@ var levelSave = function(level_details){
 	data.video_hash = global.video_hash;
 
 	// Perform the request
-	request.post(config.websiteUrl + '/api/saveGame/' + global.part_id + '/' + global.order_id ).form(data)
+	request.post(config.websiteUrl + '/api/saveGame/' + global.part_id + '/' + global.order_id, {form: data}, function (error, response, body) {
+	if (!error && response.statusCode == 200) {
+		boxlog('Saved data for player: ' + global.username, 'green')
+	} else {
+		boxlog('Error saving data:' + error, 'red')
+	});
 }
 
 var challengeSequenceStart = function(username, level){

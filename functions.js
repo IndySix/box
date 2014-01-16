@@ -37,6 +37,7 @@ var challengeSequenceStart = function(username, level){
 }
 
 var challengeSequenceStop = function(level_details){
+
 	// Clear timeout if that has not been done yet.
 	clearTimeout(global.timeoutID);
 
@@ -80,13 +81,15 @@ var recordVideo = function(){
 	   	// Spawn video process
 	    spawn('ffmpeg', ['-f', 'video4linux2', '-s', 'hd720', '-t', duration, '-i', '/dev/video0',  '/opt/lampp/htdocs/data/uploads/' + hash + '.mp4'])
 	   	
-	   	// Reset checkin for video
-	   	checkin = false;
+	   	// Reset hash for video
 	   	video_hash = hash;
 	   	global.video_hash = hash;
 
+	   	// Generate thumbnail
+	   	spawn('ffmpeg', ['-ss', '00:00:05', '-t', '1', '-s', '720x480', '-i', '/opt/lampp/htdocs/data/uploads/' + hash + '.mp4','-f', 'mjpeg', '/opt/lampp/htdocs/data/uploads/thumbnails/' + hash + '.jpg'])
+	   
 	} else {
-		boxlog('Already recording video', 'red')
+		boxlog('Error recording video', 'red')
 	}
 	
 }

@@ -64,9 +64,13 @@ function readSensor(port){
 				// A for approach
 				case "A":
 					// play.sound('./sound/coin.wav'); // Might want to do a drumroll?
-					sendSocket({code: 'approach'});
-
-					boxlog('Skater approaching..')
+					if (data == 'L'){
+						boxlog('Skater approaching from the left..')
+					} else if (data == 'R'){
+						boxlog('Skater approaching from the right..')
+					} else {
+						boxlog('Unable parsing data..')
+					}
 
 					// Record video for 30 seconds
 					functions.recordVideo()

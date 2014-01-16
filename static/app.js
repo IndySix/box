@@ -9,15 +9,17 @@ socket.on('box', function (data) {
 		switch(data.data.code){
 			case 'start':
 				$('#checkin').fadeOut(function(){
-					$('#challenge-title').text('Challenge: ' + data.data.challenge)
-					$('#username').text(data.data.username);
+					$('#challenge-title').text('Challenge: ' + data.data.level.level_description + ' Level: ' + data.data.level.order);
+					$('#avatar').attr({'src': 'localhost/data/avatars/' + data.data.user.avatar});
+					$('#username').text(data.data.user.username);
 					$('#challenge').fadeIn();
+					$('#level_description').text(data.data.level.level_description)
 				});
 				break;
 
 			case 'progress':
 				$('#progress').css('width', data.data.amount);
-					break;
+				break;
 
 			case 'finish':
 				$('#challenge').fadeOut(function(){
@@ -26,8 +28,16 @@ socket.on('box', function (data) {
 				});
 				break;
 
+			case 'video':
+				$('#finish').fadeOut();
+				$('#video').fadeIn();
+				var src = 'localhost/data/uploads/' + data.data.hash + '.mp4';
+				console.log(src);
+				$('#video-embed').attr({'src': src})
+				$('#video-embed').play()
+
 			case 'restart':
-				$('#challenge').fadeOut()
+				$('#video').fadeOut()
 				$('#finish').fadeOut(function(){
 					$('#checkin').fadeIn();	
 				});

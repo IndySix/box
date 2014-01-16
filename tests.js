@@ -15,7 +15,7 @@ var testSerial = function(){
 var testSocket = function(){
 
 	// Start test sequence1
-	sendSocket({code: 'start', username: 'Joost', challenge: 'Grind Low'});
+	sendSocket({code: 'start', user: {username: 'Joost', avatar: 'test.jpg'}, level: {'level_description': 'Grind Low', order: 2}});
 	
 	// Progress bar
 	setTimeout(function(){ sendSocket({code: 'progress', amount: '5%'}) }, 1000)
@@ -42,8 +42,11 @@ var testSocket = function(){
 	// Finish
 	setTimeout(function(){ sendSocket({code: 'finish', score: '800'}) }, 4000)
 
+	// Show video
+	setTimeout(function(){ sendSocket({code: 'video', hash: '76ca87a7874de163c2e04dbcb7037621'}) }, 10000)
+	
 	// Reset to start screen
-	setTimeout(function(){ sendSocket({code: 'restart'}) }, 10000)
+	setTimeout(function(){ sendSocket({code: 'restart'}) }, 20000)
 }
 
 module.exports.testSocket = testSocket;

@@ -44,7 +44,6 @@ web.post('/start', function(req, res) {
 	level = JSON.parse(req.body.data);
 	user = level.queue
 	timeout = level.playTime
-	functions.checkin = {user: user, level: level}
 
 	global.username = user.username
 	global.order_id = level.order
@@ -52,6 +51,10 @@ web.post('/start', function(req, res) {
 
 	// Start challenge
 	functions.challengeSequenceStart(user.username, level)
+
+	// Setup second screen
+	sendSocket({code: 'start', user: user, level: level});
+
 
 	// Start listening of sensors until timeout or stop function
 	global.timeout = setTimeout(function(){

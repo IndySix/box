@@ -33,7 +33,7 @@ socket.on('box', function (data) {
 				$('#video').fadeIn();
 				var src = 'localhost/data/uploads/' + data.data.hash + '.mp4';
 				console.log(src);
-				$('#video-embed').attr({'src': src})
+				$('#video-src').attr({'src': src})
 				$('#video-embed').play()
 
 			case 'restart':
